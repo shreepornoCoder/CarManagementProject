@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content  %}
+
+<style>
+    .form-group label {
+        color: white;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .form-container {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #444; /* Adjust the background color if necessary */
+    }
+</style>
+
+<div >
+    <h1 style="text-align: center; color: white; margin-bottom: 10px; margin-top: 30px; color: lightskyblue;">SignUp Here</h1>
+    <div style="width: 50%; margin: auto; margin-top: 30px; margin-bottom: 40px;" class='form-container'>
+        <form method = "post">
+            {% csrf_token %}
+            <!-- {{form | crispy }} -->
+            {% for fm in form %}
+                <div style="margin-bottom: 20px;" class="form-group">
+                    {{ fm.label_tag }} {{ fm }} {{ fm.errors | striptags }}
+                </div>
+            {% endfor %} 
+            <button type="submit" class="btn btn-primary mb-3 mt-1">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock  %}

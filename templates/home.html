@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .details{
+        width: 450px; 
+        height: 45px; 
+        background-color: transparent; 
+        color: rgb(7, 163, 215); 
+        font-weight: 500; 
+        margin: auto;
+        display: block;
+        text-align: 0 center;
+    }
+</style>
+
+<div style="display: flex; justify-content: space-evenly; margin-top: 30px;">
+    <div style="margin-top: 50px;">
+        <h2 class="text-light" style="text-align: center;">Welcome to CarQuest</h2>
+        <p class="text-warning" style="width: 700px; text-align: justify; margin-top: 30px; font-weight: 600; line-height: 30px;">Welcome to our car website, your one-stop destination for exploring and buying automobiles. Discover a wide array of vehicles, from sports cars to eco-friendly hybrids. Browse detailed listings with specifications, features, and user reviews. Compare models side-by-side to make informed decisions. Connect with sellers directly for test drives and explore financing options. Stay updated with industry news and car reviews through our informative blog. Join our community of car enthusiasts for discussions and advice. Our dedicated customer support ensures a seamless buying experience. Start your journey towards finding your dream car today!
+        </p>
+    </div>
+    <div>
+        <img style="width: 600px; border: solid 3px white; border-radius: 15px;" src="{% static 'D:\Phitron\SDT\Django\Mid Term Exam\CarManagementSystem\project\static\image1.webp' %}" alt="">
+    </div>
+</div>
+<br>
+<br>
+<hr style="width: 1500px; margin: auto; color:white;">
+<div>
+    <h2 class="text-light mb-4" style="text-align: center; margin-top: 40px;">Categories</h2>
+    <div style="display: flex; text-decoration: none; justify-content: space-evenly;
+    font-size: 20px; width: 1600px; height: 50px; border: solid 2px white; margin: auto;">
+        {% for b in brand %}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="category" id="{{ b.id }}">
+                <label class="form-check-label mb-2" for="{{ b.id }}">
+                    <a href="{% url 'category_wise_post' b.slug %}" class="text-decoration-none fw-bold" style="color: lightsalmon;">{{ b.brand_name }}</a>
+                </label>
+            </div>
+        {% endfor %} 
+    </div>
+</div>
+<div>
+    <h1 class="text-center" style=" padding-top: 50px;">Total Car Found: {{data | length}}</h1>
+    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; padding-top: 20px; padding-bottom: 30px; padding-top: 20px;">
+        {% for post in data %}
+        <div class="card" style="width: 32rem; padding-bottom: 30px; margin-bottom: 30px; margin-top: 20px;">
+            <img src="{{post.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h3 class="card-title text-primary">Car name: {{post.car_name}}</h3>
+              <h5 class="card-title text-warning">Brand Name: {{post.brand}}</h5>
+              <h6 class="card-text text-danger">Car Price:   {{post.price}}$</h6>
+              <br>
+              <a href="{% url 'details_post' post.id %}" class="btn btn-primary details"> View Car Details</a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock  %}

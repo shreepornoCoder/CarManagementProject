@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load l10n %}
+
+{% block content %}
+<style>
+    hr{
+        color: white;
+    }
+</style>
+
+<div style="display: flex; justify-content: center; padding-top: 30px;">
+    <div class="card" style="width: 50rem;">
+        <img src="{{ post.image.url }}" class="card-img-top" alt="..." style="width:auto;">
+    </div>
+    <div style="padding-left: 50px;">
+        <h2 class="text-info">{{ post.car_name }}</h2>
+        <h3 class="text-light">Brand: {{ post.brand }}</h3>
+        <hr style="width: 400px;">
+        <h4 class="text-info">Price: {{ post.price|localize }}$</h4>
+        <hr>
+        <h4 class="text-info">Quantity: {{ post.quantity }}</h4>
+        <hr>
+        <div style="display: flex; text-align: justify; width: 700px;">
+            <h5 class="text-warning">Description: </h5>
+            <p class="mx-2 text-light">{{ post.description }}</p>
+        </div>
+        <hr>
+        {% if user.is_authenticated %}
+            <a href="{% url 'buyCar' post.id %}" class="btn btn-danger">Buy Product</a>
+        {% endif %}
+    </div>
+</div>
+<br>
+
+<hr style="width: 1500px; margin: auto;">
+<br>
+<hr style="width: 1500px; margin: auto;">
+<br>
+
+<h1 class="text-center">Total Comments: {{comments | length}}</h1>
+<br>
+<hr style="width: 1500px; margin: auto;">
+<br>
+
+<div style="display: flex; justify-content: space-around;">
+    <div style="width: 40%;">
+        <h2>Add Comment: </h2>
+        <form method="post">
+            {% csrf_token %}
+            {{comment_form | crispy}}
+            <br>
+            <button type="submit" class="btn btn-warning mb-5">Submit</button>
+        </form>
+    </div>
+    <div>
+        <h1>Comments:</h1>
+        {% for comment in comments %}
+            <div class="card m-3" style="width: 30rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{comment.name}}</h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">{{comment.created_on}}</h6>
+                  <p class="card-text">{{comment.body}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
